@@ -1,0 +1,7 @@
+- build: examples/BuildTest
+  photon: [0.7.0,1.0.0, 1.5.1-rc.1]
+  p1: [latest]
+  electron: [1.0.0]
+  argon: [latest]
+  boron: [latest]
+  
