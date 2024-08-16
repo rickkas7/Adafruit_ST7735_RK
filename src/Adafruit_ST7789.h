@@ -5,32 +5,24 @@
 
 /// Subclass of ST77XX type display for ST7789 TFT Driver
 class Adafruit_ST7789 : public Adafruit_ST77xx {
-  public:
-    Adafruit_ST7789(int8_t cs, int8_t dc, int8_t mosi, int8_t sclk,
-      int8_t rst = -1);
-    Adafruit_ST7789(int8_t cs, int8_t dc, int8_t rst);
-    Adafruit_ST7789(SPIClass *spiClass, int8_t cs, int8_t dc, int8_t rst);
+public:
+  Adafruit_ST7789(int8_t cs, int8_t dc, int8_t mosi, int8_t sclk,
+                  int8_t rst = -1);
+  Adafruit_ST7789(int8_t cs, int8_t dc, int8_t rst);
+#if !defined(ESP8266)
+  Adafruit_ST7789(SPIClass *spiClass, int8_t cs, int8_t dc, int8_t rst);
+#endif // end !ESP8266
 
-#ifdef SYSTEM_VERSION_v151RC1
-  // In 1.5.0-rc.1, SPI interfaces are handled differently. You can still pass in SPI, SPI1, etc.
-	// but the code to handle it varies
-  Adafruit_ST7789(::particle::SpiProxy<HAL_SPI_INTERFACE1> *spiProxy, int8_t cs, int8_t dc, int8_t rst) : 
-    Adafruit_ST7789(&spiProxy->instance(), cs, dc, rst) {};
+  void setRotation(uint8_t m);
+  void init(uint16_t width, uint16_t height, uint8_t spiMode = SPI_MODE0);
 
-#if Wiring_SPI1
-  Adafruit_ST7789(::particle::SpiProxy<HAL_SPI_INTERFACE2> *spiProxy, int8_t cs, int8_t dc, int8_t rst) : 
-    Adafruit_ST7789(&spiProxy->instance(), cs, dc, rst) {};
-#endif
+protected:
+  uint8_t _colstart2 = 0, ///< Offset from the right
+      _rowstart2 = 0;     ///< Offset from the bottom
 
-#if Wiring_SPI2
-  Adafruit_ST7789(::particle::SpiProxy<HAL_SPI_INTERFACE3> *spiProxy, int8_t cs, int8_t dc, int8_t rst) : 
-    Adafruit_ST7789(&spiProxy->instance(), cs, dc, rst) {};
-#endif
-
-#endif /* SYSTEM_VERSION_v151RC1 */
-
-    void setRotation(uint8_t m);
-    void init(uint16_t width, uint16_t height);
+private:
+  uint16_t windowWidth;
+  uint16_t windowHeight;
 };
 
 #endif // _ADAFRUIT_ST7789H_

@@ -40,6 +40,10 @@ Also requires the Adafruit_GFX library for Arduino.
 
 # Version History
 
+### 1.10.4 (2024-08-16)
+
+- Updated to upstream 1.10.4 and Adafruit_GFX_RK 1.11.10
+
 ### 1.2.8 (2020-08-02)
 
 - Upgrade to Adafruit_GFX_RK 1.5.8
